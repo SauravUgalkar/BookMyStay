@@ -1,0 +1,596 @@
+/* --- Responsive Design: Mobile First Approach --- */
+/* Show page specific styles */
+.show-btns .btn-danger {
+    background-color: #b62424 !important;
+    color: #fff !important;
+}
+
+
+.Show-img {
+    border-radius: 1rem !important;
+    object-fit: cover;
+    width: 100%;
+    height: 20rem;
+}
+
+/* footer and font styles */
+body {
+    font-family: "Plus Jakarta Sans", sans-serif !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+}
+
+/* navbar style */
+.navbar {
+    height: 4.5rem;
+    background-color: rgb(202, 230, 230) !important;
+}
+
+.fa-compass {
+    color: #b62424 !important;
+    font-size: 2rem;
+} 
+
+.nav-link {
+    color: #1a1818 !important;
+}
+
+/* footer styles */
+
+
+footer {
+    background: #f8f9fa;
+    padding: 32px 0 16px 0;
+    text-align: center;
+    color: #333;
+    border-top: 1px solid #e0e0e0;
+    font-size: 1rem;
+    margin-top: 40px;
+}
+
+.f-info-social {
+    margin-bottom: 12px;
+}
+
+.f-info-social i {
+    display: inline-block;
+    margin: 0 8px;
+    color: #333;
+    font-size: 1.3rem;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.f-info-social i:hover {
+    color: #6fc1d5;
+}
+
+.f-info-links {
+    margin-bottom: 8px;
+}
+
+.f-info-links a {
+    color: #333;
+    margin: 0 8px;
+    text-decoration: none;
+    font-size: 0.95rem;
+}
+
+.f-info-links a:hover {
+    text-decoration: underline;
+}
+
+.f-info-brand {
+    color: #6f6767;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+
+/* cards */
+.card {
+    border: none;
+    margin-bottom: 2rem;
+    border: none !important;
+}
+
+.card-img-top {
+    border-radius: 1rem !important;
+    width: 100% !important;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 0;
+}
+.card-text {
+    font-weight: 400;
+}
+
+/* Responsive adjustments for mobile (max-width: 576px) */
+@media (max-width: 576px) {
+  .navbar {
+    height: auto;
+    padding: 0.5rem 1rem;
+  }
+  .fa-compass {
+    font-size: 1.5rem;
+  }
+  .nav-link {
+    font-size: 0.9rem;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    width: 100%;
+    text-align: left;
+  }
+  footer {
+    padding: 24px 0 12px 0;
+    font-size: 0.9rem;
+  }
+  .f-info-social i {
+    font-size: 1.1rem;
+  }
+  .f-info-links a {
+    font-size: 0.85rem;
+  }
+  .navbar-collapse {
+    background: #cae6e6 !important;
+    padding: 0.5rem 0.5rem 1rem 0.5rem;
+    border-radius: 0 0 1rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-top: 0.5rem;
+  }
+  .navbar-nav {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100%;
+  }
+  .navbar-toggler {
+    border: none;
+    box-shadow: none !important;
+    outline: none !important;
+  }
+  .navbar-brand {
+    margin-bottom: 0.5rem;
+  }
+  .show-btns {
+    flex-direction: column !important;
+    gap: 0.5rem;
+  }
+  .show-btns .btn {
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.listing-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Card effect on hover */
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+} 
+.card-img-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(228, 222, 222, 0.817);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 1rem !important;
+}
+
+.card:hover .card-img-overlay {
+    opacity: 0.5;
+}
+
+
+/* --- Button color logic unchanged, just moved for clarity --- */
+.add-btn, .update-btn, .delete-btn {
+    background-color: #b62424 !important;
+    border: none !important;
+}
+.add-btn:hover, .update-btn:hover, .delete-btn:hover {
+    background-color: #8e1b1b !important;
+    color: #fff !important;
+}
+
+/* show page */
+
+.Show-img {
+    height: 40vh; 
+}
+
+/* Extra small devices (phones, <576px) */
+@media (max-width: 575.98px) {
+  .navbar-brand span, .navbar-brand img {
+    font-size: 1.1rem !important;
+    max-width: 90px;
+  }
+  .navbar-nav {
+    gap: 0.2rem !important;
+  }
+  .card {
+    margin-bottom: 1rem;
+  }
+  .card-img-top, .Show-img {
+    height: 180px !important;
+  }
+  .row-cols-lg-3, .row-cols-md-2, .row-cols-sm-1 {
+    flex-direction: column !important;
+  }
+  .tax-toggle {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+  }
+  .filter {
+    margin-right: 1rem;
+    font-size: 0.8rem;
+  }
+  .navbar .form-control, .navbar .btn {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .navbar-brand span {
+    font-size: 1.2rem !important;
+  }
+  .card-img-top, .Show-img {
+    height: 200px !important;
+  }
+  .row-cols-lg-3, .row-cols-md-2, .row-cols-sm-1 {
+    flex-direction: column !important;
+  }
+  .tax-toggle {
+    font-size: 0.9rem;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .navbar-brand span {
+    font-size: 1.3rem !important;
+  }
+  .card-img-top, .Show-img {
+    height: 220px !important;
+  }
+  .row-cols-lg-3 {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+  }
+  .tax-toggle {
+    font-size: 1rem;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .navbar-brand span {
+    font-size: 1.4rem !important;
+  }
+  .card-img-top, .Show-img {
+    height: 260px !important;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .navbar-brand span {
+    font-size: 1.5rem !important;
+  }
+  .card-img-top, .Show-img {
+    height: 320px !important;
+  }
+}
+
+/* General fixes for all breakpoints */
+@media (max-width: 991.98px) {
+  .navbar .form-control, .navbar .btn {
+    width: 100% !important;
+    margin-bottom: 0.5rem;
+  }
+  .navbar .btn {
+    margin-left: 0 !important;
+  }
+  .navbar-nav {
+    align-items: flex-start !important;
+  }
+  .navbar-collapse {
+    background: #cae6e6 !important;
+    border-radius: 0 0 1rem 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-top: 0.5rem;
+  }
+}
+
+/* Hide horizontal scroll and fix overflow for all devices */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Make filters scrollable on mobile */
+@media (max-width: 767.98px) {
+  #filters {
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    padding-bottom: 0.5rem;
+  }
+  .filter {
+    min-width: 80px;
+    margin-bottom: 0;
+  }
+}
+
+/* Responsive fix for footer */
+@media (max-width: 575.98px) {
+  footer {
+    font-size: 0.8rem;
+    padding: 16px 0 8px 0;
+  }
+}
+
+/* Responsive fix for search bar in navbar */
+@media (max-width: 767.98px) {
+  .navbar form[role="search"] {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 0.5rem 0;
+  }
+}
+
+/* Responsive fix for listing cards grid */
+@media (max-width: 991.98px) {
+  .row.row-cols-lg-3 {
+    flex-direction: column !important;
+  }
+  .card.col {
+    width: 100% !important;
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* Responsive fix for modal dialogs */
+@media (max-width: 575.98px) {
+  .modal-content {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+}
+
+/* Responsive fix for map container */
+@media (max-width: 767.98px) {
+  #map {
+    height: 200px !important;
+  }
+}
+
+/* Responsive fix for .show-title */
+@media (max-width: 575.98px) {
+  .show-title h3, .show-title h1 {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* Responsive fix for .tax-info and GST info */
+@media (max-width: 575.98px) {
+  .gst-info, .tax-info {
+    font-size: 0.85rem !important;
+  }
+}
+
+/* ========================= CUSTOM FIXES FOR MOBILE UI ========================= */
+
+@media (max-width: 575.98px) {
+  /* Fix tax-toggle button spacing and appearance */
+  .tax-toggle {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 0.7rem 1rem !important;
+    margin: 0.5rem 0 !important;
+    font-size: 1rem !important;
+    border-radius: 1rem !important;
+    background-color: #f8f9fa !important;
+    border: 1px solid #dee2e6 !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    width: 100% !important;
+    max-width: 350px;
+  }
+  .tax-toggle .form-check-label {
+    margin-top: 0.3rem;
+    font-size: 1rem !important;
+    white-space: normal !important;
+    text-align: left !important;
+  }
+  .tax-toggle .form-check-input {
+    margin-right: 0.5rem !important;
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  /* Fix Add your home button and Welcome text spacing */
+  .navbar-nav .nav-link {
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 1rem !important;
+    text-align: left !important;
+    white-space: normal !important;
+  }
+  .navbar-nav .nav-item.d-flex {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.2rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .navbar-text {
+    font-size: 1rem !important;
+    margin-bottom: 0.2rem !important;
+    white-space: normal !important;
+    text-align: left !important;
+  }
+  /* Fix Add your home button text wrapping */
+  .navbar-nav .nav-link b {
+    word-break: break-word !important;
+    white-space: normal !important;
+  }
+}
+
+/* ========================= END CUSTOM FIXES FOR MOBILE UI ========================= */
+
+/* ========================= UI FIXES FOR SMALL SCREENS ========================= */
+@media (max-width: 575.98px) {
+  /* Fix tax-toggle button width and appearance */
+  .tax-toggle {
+    width: auto !important;
+    min-width: 140px !important;
+    max-width: 180px !important;
+    padding: 0.5rem 0.7rem !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 1rem !important;
+    margin: 0.5rem 0.5rem 0.5rem 0 !important;
+    font-size: 0.4rem !important;
+    background: #fff !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+  }
+  .tax-toggle .form-check-label {
+    margin-left: 0.5rem !important;
+    font-size: 0.4rem !important;
+    white-space: normal !important;
+    text-align: left !important;
+  }
+  .tax-toggle .form-check-input {
+    margin-right: 0 !important;
+    width: 1.2em;
+    height: 1.2em;
+  }
+
+  /* Fix user icon and Welcome text spacing */
+  .navbar-nav .nav-item.d-flex {
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  .navbar-nav .nav-item.d-flex .fa-user, .navbar-nav .nav-item.d-flex .fa-user-check {
+    font-size: 1.2rem !important;
+    color: #c71e26 !important;
+    margin-bottom: 0 !important;
+    margin-right: 0.3rem !important;
+  }
+  .navbar-text {
+    font-size: 1rem !important;
+    margin-bottom: 0 !important;
+    white-space: normal !important;
+    text-align: left !important;
+  }
+}
+/* ========================= END UI FIXES FOR SMALL SCREENS ========================= */
+
+/* ========================= TAX TOGGLE BELOW FILTERS ON MOBILE ========================= */
+@media (max-width: 575.98px) {
+  #filters {
+    flex-wrap: wrap !important;
+    flex-direction: row !important;
+    align-items: flex-start !important;
+    position: relative;
+    margin: 0 1rem 0 1rem !important;
+  }
+  .tax-toggle {
+    position: static !important;
+    width: 40vw !important;
+    max-width: 350px !important;
+    margin: 1rem auto 1rem auto !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    order: 99;
+    /* Push to end of flex container */
+  }
+  .tax-toggle {
+  display: flex;
+  justify-content: center;
+}
+
+.form-switch {
+  display: flex;
+  align-items: flex-start; /* important */
+  gap: 10px;
+}
+
+/* Move toggle slightly UP */
+.form-check-input {
+  margin-top: 4px !important;
+}
+
+/* Move text slightly DOWN */
+.form-check-label {
+  line-height: 1.2;
+  margin-top: 4px !important  ;
+  font-size: 14px; /* better for mobile */
+}
+
+/* Optional: only apply on mobile */
+@media (max-width: 576px) {
+  .form-check-input {
+    margin-top: 1px !important;
+  }
+  .form-check-label {
+    margin-top: 5px !important;
+  }
+}
+.tax-toggle {
+  display: flex;
+  justify-content: center;
+}
+
+.tax-switch {
+  display: flex;
+  align-items: center;   /* 🔥 fixes misalignment */
+  gap: 10px;
+}
+
+/* Remove Bootstrap spacing issues */
+.tax-switch .form-check-input {
+  margin: 0;
+}
+
+/* Text alignment fix */
+.tax-switch .form-check-label {
+  margin: 0;
+  line-height: 1.4;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile fine-tuning */
+@media (max-width: 576px) {
+  .tax-switch .form-check-label {
+    font-size: 13px;
+  }
+}
+}
+/* ========================= END TAX TOGGLE BELOW FILTERS ON MOBILE ========================= */
+

@@ -1,0 +1,33 @@
+<% layout("layouts/boilerplate") %>
+
+<div class="row mt-3">
+    <h1 class="text-center"><b>Register to BookMyStay</b></h1>
+    <br><br>
+    <hr>
+    <br>
+    <div class="col-md-6 offset-md-3">
+        <form action="/register" method="POST" class="needs-validation" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please enter a username.</div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please enter a valid email.</div>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Please enter a password.</div>
+            </div>
+            <div class="mt-3">
+                <button type="submit" class="btn btn-dark">Register</button>
+            </div>
+        </form>
+    </div>    
+</div>

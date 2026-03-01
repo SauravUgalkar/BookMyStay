@@ -1,0 +1,136 @@
+<% layout("layouts/boilerplate") %>
+<body>
+    <br>
+    <style>
+        #filters {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .filter {
+            text-align: center;
+            margin-right: 2rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .filter:hover {
+            opacity: 1.5;
+            color: #c71e26;
+            cursor: pointer;
+        }
+        .filter i {
+            font-size: 1.5rem;
+        }
+        .filter div:last-child {
+            font-size: 0.9rem;
+        }
+        .filter p {
+            font-size: 0.8rem;
+        }
+        .tax-info {
+            display: none;
+        }
+        .tax-toggle {
+            margin-left: auto;
+            border-radius: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            margin-bottom: auto;
+            
+        }
+    </style>
+    <div id="filters">
+        <div class="filter">
+            <div><i class="fa-solid fa-fire"></i>
+            </div>
+            <div>Trending</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-bed"></i>
+            </div>
+            <div>Rooms</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-city"></i>
+            </div>
+            <div>cities</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-mountain"></i>
+            </div>
+            <div>Mountains</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-brands fa-fort-awesome"></i>
+            </div>
+            <div>castles</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-person-swimming"></i>
+            </div>
+            <div>pools</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-campground"></i>
+            </div>
+            <div>Campground</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-tractor"></i>
+            </div>
+            <div>Farms</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-snowflake"></i>
+            </div>
+            <div>Snow</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-tree"></i>
+            </div>
+            <div>Nature</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-igloo"></i>
+            </div>
+            <div>Unique stays</div>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-house"></i>
+            </div>
+            <div>Homes</div>
+        </div>
+
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                <label class="form-check-label" for="switchCheckDefault">Display price with taxes</label>
+            </div>
+        </div>
+
+    </div>
+    <!-- <a href="/listings/new"><button type="button">Create New Listing</button></a> -->
+    <br>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <% for(let listing of allListings) { %> 
+        <a href="/listings/<%= listing._id %>" class="listing-link"> 
+            <div class="card col">
+                <img src="<%= typeof listing.image === 'object' && listing.image.url ? listing.image.url : listing.image %>" class="card-img-top" alt="listing_image" style="height: 20rem;" />
+                <div class="card-img-overlay"></div>
+                <div class="card-body">
+                    <p class="card-text">
+                        <b> <%= listing.title %> </b> <br>
+                        <span class="listing-price"> <%= "₹" + listing.price.toLocaleString("en-IN") %> / Night</span><br>
+                    </p>
+                </div>
+            </div>
+        </a>
+    <% } %>
+    </div>
+</body>
+
+<script src="/js/taxPrice.js"></script>

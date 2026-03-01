@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-md navbar-light bg-body-primary border-bottom sticky-top shadow-sm py-2">
+  <div class="container-fluid">
+    <!-- Left: Logo & Brand -->
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/listings" style="font-size: 1.5rem;">
+      <i class="fa-solid fa-compass me-1" width="32" height="32" alt="Logo" style="object-fit:contain; filter:none; margin-right: 0.5rem;"></i>
+      <span class="fw-bold" style="color: #c71e26; letter-spacing: 1px; font-size: 1.2rem;">BookMyStay</span>
+    </a>
+
+    <!-- Toggler for mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Center: Search Bar -->
+      <form class="d-flex mx-auto" role="search" style="max-width: 400px; width: 100%;">
+        <input class="form-control me-2 rounded-pill px-3 shadow-sm" type="search" placeholder="Search places, listings..." aria-label="Search" style="border: 1px solid #c71e26;"/>
+        <button class="btn btn-danger rounded-pill px-4 shadow-sm" type="submit" style="background: #c71e26; border: none;"><i class="fa-solid fa-magnifying-glass"></i></button>
+      </form>
+
+      <!-- Right: Nav links & User/Auth -->
+      <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
+        <li class="nav-item">
+          <a class="nav-link px-3 me-2" href="/listings"><b>Explore</b></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3 me-2" href="/listings/new"></i><b>Add your home</b></a>
+        </li>
+        <% if(!currentUser) { %>
+          <li class="nav-item d-flex align-items-center">
+            <i class="fa-solid fa-user me-2 navbar-text"></i>
+            <span class="navbar-text me-3">Welcome, Guest!</span>
+          </li>
+          <li class="nav-item"><a class="nav-link px-3" href="/register"><b>Register</b></a></li>
+          <li class="nav-item"><a class="nav-link px-3 me-2" href="/login"><b>Login</b></a></li>
+        <% } else { %>
+          <li class="nav-item d-flex align-items-center">
+            <i class="fa-solid fa-user-check me-2 navbar-text" style="color:#c71e26;"></i>
+            <span class="navbar-text me-3">Welcome, <%= currentUser.username %>!</span>
+          </li>
+          <li class="nav-item"><a class="nav-link px-3" href="/logout"><b>Logout</b></a></li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,93 @@
+<% layout("layouts/boilerplate") %>
+<body>
+    <br><br>
+    <h3>Update Listing</h3>
+    <hr>
+
+    <form method="POST" action="/listings/<%= listing._id %>?_method=PUT" novalidate class="needs-validation" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title:</label>
+            <input type="text" value="<%= listing.title %>" name="listing[title]" required class="form-control">
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Title is invalid!</div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label><br>
+            <textarea  name="listing[description]"  class="form-control" required><%= listing.description %></textarea>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Description is invalid!</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="currentImage" class="form-label">Current Image:</label><br>
+            <img src="<%= originalImage %>" alt="Current Listing Image" class="img-thumbnail mb-2" style="max-width: 200px;">
+        </div>
+        
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload New Image</label>
+            <input name="listing[image]" type="file" class="form-control" >
+            <div class="valid-feedback">Image uploaded successfully!</div>
+            <div class="invalid-feedback">Please upload an image!</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Price:</label>
+            <input type="number" value="<%= listing.price %>" name="listing[price]" class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Price is invalid!</div>
+        </div>
+        
+        <div class ="mb-3">
+            <label for="location" class="form-label">Location:</label>
+            <input type="text" value="<%= listing.location %>" name="listing[location]"  class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Location is invalid!</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="country" class="form-label">Country:</label>
+            <input type="text" value="<%= listing.country %>" name="listing[country]"  class="form-control" required>
+            <div class="valid-feedback">Looks good!</div>
+            <div class="invalid-feedback">Country is invalid!</div>
+        </div>
+        <br>
+        <button type="button" class="btn btn-dark update-btn" onclick="showConfirm('update', null)">Update</button>
+    </form>
+
+    <!-- Custom Confirmation Dialog for Update -->
+    <div id="actionConfirm" class="modal" tabindex="-1" style="display:none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span id="actionTitle"></span>
+                    <button type="button" class="btn-close" onclick="closeConfirm()"></button>
+                </div>
+                <div class="modal-body">
+                    <span id="actionMessage"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeConfirm()">Cancel</button>
+                    <button type="button" class="btn btn-dark" id="actionConfirmBtn">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/actionConfirm.js"></script>
+    <script>
+        // Override showConfirm for update to submit the form
+        window.showConfirm = function(action, url) {
+            const modal = document.getElementById('actionConfirm');
+            document.getElementById('actionTitle').innerText = 'Update Listing';
+            document.getElementById('actionMessage').innerText = 'Are you sure you want to update this listing?';
+            document.getElementById('actionConfirmBtn').innerText = 'Update';
+            document.getElementById('actionConfirmBtn').onclick = function() {
+                // Submit the form
+                document.querySelector('form').submit();
+                closeConfirm();
+            };
+            modal.style.display = 'block';
+        };
+    </script>
+    </form>   
+</body>

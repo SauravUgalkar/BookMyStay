@@ -1,0 +1,147 @@
+<% layout("layouts/boilerplate") %>
+<body>
+    <br><br>
+    <!-- Leaflet CSS for map rendering (OpenStreetMap, no API key required) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <div class ="row show-title"><!-- Added show-title class for responsive centering -->
+        <div class="col-12">
+        <h3><b><%= listing.title %></b></h3>
+        </div>
+        <br>
+        <hr>
+        <br>
+            <div class="mx-auto mt-4" style="max-width: 32rem;">
+                <img src="<%= typeof listing.image === 'object' && listing.image.url ? listing.image.url : listing.image %>" class="card-img-top Show-img" alt="listing_image" /><br>
+                <div class="mb-2 mt-2" style="justify-content: center; display: flex; align-items: center;">
+                    <i class="fa-solid fa-user"></i> <strong>Owner : </strong><i><%= listing.Owner ? listing.Owner.username : "Unknown" %></i>
+                </div>
+                <div class="p-4">
+                    <p class="mb-3"><%= listing.description %></p>
+                    <div class="mb-2">
+                        <span class="fw-semibold">&#8377 <%= listing.price.toLocaleString("en-IN") %></span> <span class="text-muted">/ per Night</span>
+                    </div>
+                    <div class="mb-2">
+                       <i class="fa-solid fa-location-dot"></i> <%= listing.location %>, <%= listing.country %>
+                    </div>
+                </div>
+            </div>
+
+    
+
+    <br><br>
+   <!-- Responsive button group for show page -->
+    <% if(currentUser && listing.Owner && currentUser._id.equals(listing.Owner._id)) { %>
+            <div class="row justify-content-center mt-4 show-btns"><!-- Added show-btns class for responsive styling -->
+                <div class="col-md-2 mb-2">
+                    <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark w-100">Update</a>
+                </div>
+                <div class="col-md-2 mb-2">
+                    <button type="button" class="btn btn-danger w-100" onclick="showConfirm('delete', '/listings/<%= listing._id %>?_method=DELETE')">Delete</button>
+                </div>
+            </div>
+    <% } %>
+   
+    <% if(currentUser) { %>
+        <div class="mb-3 mt-3">
+            <br>
+            <hr>
+            <h4 class="mb-3">Add Reviews</h4>
+            <form action="/listings/<%= listing._id %>/reviews" method="post" novalidate class="needs-validation">
+                <!-- <div class="mb-3 mt-3">
+                    <label for="rating" class="form-label">Rating </label>
+                    <input type="range" placeholder="Enter the rating out of 5" id="rating" name="review[rating]" min="1" max="5" required>
+                </div> -->
+                <div class="mb-3 mt-3"></div>
+                <label for="rating" class="form-label">Rating </label>
+                <fieldset class="starability-slot">
+                    
+                    <!-- Removed 0 rating, default to 1 -->
+                    <input type="radio" id="first-rate1" name="review[rating]" value="1" checked />
+                    <label for="first-rate1" title="Terrible">1 star</label>
+                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                    <label for="first-rate2" title="Not good">2 stars</label>
+                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                    <label for="first-rate3" title="Average">3 stars</label>
+                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                    <label for="first-rate4" title="Very good">4 stars</label>
+                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                    <label for="first-rate5" title="Amazing">5 stars</label>
+                </fieldset>
+                <div class="mb-3 mt-3">
+                    <label for="comment" class="form-label">Comments</label>
+                    <textarea placeholder="Enter your comments here" id="comment" name="review[comment]" col="30" row="5" required class="form-control"></textarea>
+                    <div class="invalid-feedback">Please provide a comment!</div>
+                </div>
+                <button type="submit" class="btn btn-dark mt-2">Submit Review</button>     
+            </form> 
+        </div>
+    <% } %>
+    <br>
+    <hr>   
+
+    <% if(listing.reviews.length > 0) { %>
+    <div class="row">
+        <p><b>All Reviews</b></p>
+        <% for(let review of listing.reviews) { %>
+           <div class="card col-5 ms-3 mb-3">
+                <div class="card-body">
+                    <div class="mb-2 mt-2">
+                    <i class="fa-solid fa-user"></i><i><%= review.author ? review.author.username : "Unknown" %></i>
+                    </div>
+                <p class="starability-result mt-3" data-rating="<%= review.rating %>">
+                    Rated: <%= review.rating %> 
+                </p>
+                <p class="card-text"><%= review.comment %></p>
+                    <% if(currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
+                        <form class="d-inline" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-sm btn-dark" title="Delete Review"><i class="fa-regular fa-trash-can"></i></button>
+                        </form>
+                    <% } %>
+                </div>        
+           </div>
+        <% } %>
+    </div>
+    <% } else { %>
+        <p><b>No reviews yet!</b></p>
+    <% } %>
+    <br>
+    <h4 class="mt-4" style="display: flex; justify-content: center; align-items: center;">Map Location</h4>
+
+     <!-- Map container for Leaflet map -->
+                <div style="display: flex; justify-content: center; align-items: center; margin: 2rem 0;">
+                    <div id="map" style="height: 500px; width: 800px; border-radius: 12px; border: 4px solid #000000;"></div>
+                </div>
+        <!-- Confirmation Modal for Delete/Update -->
+        <div id="actionConfirm" class="modal" tabindex="-1" style="display:none; position:fixed; z-index:1050; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); justify-content:center; align-items:center;">
+            <div class="modal-dialog" style="max-width:400px; margin:auto;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="actionTitle">Confirm Action</h5>
+                        <button type="button" class="btn-close" aria-label="Close" onclick="closeConfirm()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="actionMessage">Are you sure?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="closeConfirm()">Cancel</button>
+                        <button type="button" class="btn btn-danger" id="actionConfirmBtn">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Place Leaflet JS at the end so DOM is ready -->
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="/js/actionConfirm.js"></script>
+        <script>
+            // Pass listing data to mapFeature.js
+            window.listingMapData = <%- JSON.stringify({
+                geometry: listing.geometry,
+                title: listing.title,
+                location: listing.location,
+                country: listing.country
+            }) %>;
+        </script>
+        <script src="/js/mapFeature.js"></script>
+ 
+</body>
+
