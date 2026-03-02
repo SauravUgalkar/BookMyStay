@@ -25,7 +25,15 @@ module.exports.savereturnTo = function(req, res, next) {
 }
 
 // --- Middleware for validating listing data using schema.js ---
-module.exports.validateListing = function(req, res, next) {
+module.exports.validateListing = async function(req, res, next) {
+    if (!req.body.listing) {
+        throw new ExpressError(400, "Invalid listing data");
+    }
+
+    if (typeof req.body.listing.image === "string") {
+        delete req.body.listing.image;
+    }
+
     // Only set image if a file is uploaded, or if creating (POST) and no image is provided
     if (req.file) {
         req.body.listing.image = {
@@ -38,6 +46,29 @@ module.exports.validateListing = function(req, res, next) {
             url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
             filename: "placeholder.jpg"
         };
+    } else if (req.method === 'PUT') {
+        const { id } = req.params;
+        const existingListing = await Listing.findById(id);
+        if (!existingListing) {
+            throw new ExpressError(404, "Listing does not exist!");
+        }
+
+        if (existingListing.image && typeof existingListing.image === "object" && existingListing.image.url) {
+            req.body.listing.image = {
+                url: existingListing.image.url,
+                filename: existingListing.image.filename || "existing-image"
+            };
+        } else if (typeof existingListing.image === "string" && existingListing.image.trim()) {
+            req.body.listing.image = {
+                url: existingListing.image,
+                filename: "existing-image"
+            };
+        } else {
+            req.body.listing.image = {
+                url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
+                filename: "placeholder.jpg"
+            };
+        }
     }
     const { error } = listingSchema.validate(req.body);
     if (error) {

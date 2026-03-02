@@ -31,25 +31,8 @@ module.exports.showlisting = async (req, res) => {
 //create
 module.exports.createlisting = async (req, res) => {
     const newlisting = req.body.listing;
-    // If an image was uploaded, store its URL and filename from Cloudinary
-    if (req.file) {
-        newlisting.image = {
-            url: req.file.path || req.file.url || req.file.secure_url,
-            filename: req.file.filename
-        };
-    } else if (req.body.previousImageUrl) {
-        // Use previous image if provided (for edit form fallback)
-        newlisting.image = {
-            url: req.body.previousImageUrl,
-            filename: req.body.previousImageFilename || "placeholder.jpg"
-        };
-    } else {
-        // If no image, set a default placeholder
-        newlisting.image = {
-            url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80",
-            filename: "placeholder.jpg"
-        };
-    }
+    // Image is already set by validateListing middleware
+    
     // Geocode the address to get coordinates for the map (GeoJSON format)
     // GeoJSON is used for compatibility with mapping libraries and standards
     // Coordinates are [longitude, latitude] as per GeoJSON spec
@@ -60,6 +43,7 @@ module.exports.createlisting = async (req, res) => {
             coordinates: await geocodeAddress(address)
         };
     } catch (err) {
+        console.error("Geocoding error:", err.message);
         // Fallback to Delhi if geocoding fails
         newlisting.geometry = {
             type: "Point",
@@ -80,8 +64,12 @@ module.exports.editlisting = async (req, res) => {
         req.flash("error", "Listing does not exist!");
         return res.redirect("/listings");
     }
-    let originalImage = listing.image && listing.image.url ? listing.image.url : "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80";
-    originalImage = originalImage.replace(/\/upload\//, "/upload/ar_1.0,c_fill,h_250/bo_5px_solid_lightblue"); // Resize image for edit form
+    let originalImage = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80";
+    if (listing.image && typeof listing.image === "object" && listing.image.url) {
+        originalImage = listing.image.url;
+    } else if (typeof listing.image === "string" && listing.image.trim()) {
+        originalImage = listing.image;
+    }
     res.render("listings/edit.ejs", {listing, originalImage});
 }
 
@@ -89,16 +77,36 @@ module.exports.editlisting = async (req, res) => {
 module.exports.updatelisting = async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id);
-    // Update listing fields except image
-    Object.assign(listing, req.body.listing);
-    if (req.file) {
-        // If user uploads a new image, use it
-        listing.image = {
-            url: req.file.path || req.file.url || req.file.secure_url,
-            filename: req.file.filename
-        };
+    
+    if (!listing) {
+        req.flash("error", "Listing does not exist!");
+        return res.redirect("/listings");
     }
-    // If no new image is uploaded, do NOT overwrite the image field at all (keep previous image)
+    
+    // Store old location for comparison
+    const oldLocation = `${listing.location}, ${listing.country}`;
+    
+    // Update all listing fields (middleware already set image correctly)
+    Object.assign(listing, req.body.listing);
+    
+    // Re-geocode if location has changed
+    const newLocation = `${listing.location}, ${listing.country}`;
+    if (oldLocation !== newLocation) {
+        try {
+            listing.geometry = {
+                type: "Point",
+                coordinates: await geocodeAddress(newLocation)
+            };
+        } catch (err) {
+            console.error("Geocoding error:", err.message);
+            // Fallback to Delhi if geocoding fails
+            listing.geometry = {
+                type: "Point",
+                coordinates: [77.2090, 28.6139]
+            };
+        }
+    }
+    
     await listing.save();
     req.flash("success", "Listing updated successfully!");
     res.redirect(`/listings/${id}`);

@@ -8,7 +8,12 @@ const {isLoggedIn,isOwner,validateListing } = require("../middleware.js");
 const listingController = require("../controllers/listingController.js");
 const multer = require("multer");
 const { Storage } = require("../cloudConfig.js");
-const upload = multer({ storage: Storage });
+const upload = multer({
+    storage: Storage,
+    limits: {
+        fileSize: 8 * 1024 * 1024,
+    },
+});
  
 
 
@@ -35,7 +40,7 @@ router.post(
     "/",
     isLoggedIn,
     upload.single("listing[image]"),
-    validateListing,
+    wrapAsync(validateListing),
     wrapAsync(listingController.createlisting)
 );
 
@@ -48,7 +53,7 @@ router.put("/:id",
      isLoggedIn,
      isOwner,
      upload.single("listing[image]"),
-     validateListing, wrapAsync(listingController.updatelisting));
+    wrapAsync(validateListing), wrapAsync(listingController.updatelisting));
 
 
 //delete route

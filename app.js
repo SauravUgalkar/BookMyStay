@@ -65,13 +65,6 @@ passport.use(new LocalStrategy(user.authenticate())); //use static authenticate 
 passport.serializeUser(user.serializeUser()); //serializeUser determines which data of the user object should be stored in the session. The result of the serializeUser method is attached to the session as req.session.passport.user = {id: '...'}.
 passport.deserializeUser(user.deserializeUser()); //The first argument of deserializeUser corresponds to the key of the user object that was given to the done function (see serializeUser). So your whole object is retrieved with help of that key. That key is usually the user id, but you can use whatever you want.
 
-app.use((req, res, next) => {
-    res.locals.success = req.flash("success");
-    res.locals.error = req.flash("error");
-    res.locals.currentUser = req.user; //passport adds user when logged in
-    next();
-});
-
 // DB Connection
 const dbUrl = process.env.ATLAS_DB_URL ;
 main()
@@ -97,6 +90,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+// Flash messages middleware - must be before routes
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.currentUser = req.user; //passport adds user when logged in
+    next();
+});
+
 // Routes
 app.use("/", userRouter);
 app.use("/listings", listingRouter);
@@ -110,8 +111,28 @@ app.all("*", (req, res, next) => {
 
 // Error handler
 app.use((err, req, res, next) => {
+    const isFileSizeError =
+        err.code === "LIMIT_FILE_SIZE" ||
+        (typeof err.message === "string" && err.message.toLowerCase().includes("file size too large"));
+
+    if (isFileSizeError) {
+        req.flash("error", "Image size must be below 8MB.");
+
+        if (req.originalUrl.includes("/edit")) {
+            return res.redirect(req.originalUrl);
+        }
+
+        if (req.originalUrl.startsWith("/listings")) {
+            return res.redirect("/listings/new");
+        }
+    }
+
     const { statusCode = 500 } = err;
-    res.status(statusCode).render("error", { err, currentUser: req.user });
+    // Ensure flash messages are available in error page
+    if (!res.locals.success) res.locals.success = req.flash("success");
+    if (!res.locals.error) res.locals.error = req.flash("error");
+    if (!res.locals.currentUser) res.locals.currentUser = req.user;
+    res.status(statusCode).render("error", { err });
 });
 
 app.listen(port, () => {
