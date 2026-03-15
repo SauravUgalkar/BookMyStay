@@ -66,7 +66,7 @@ passport.serializeUser(user.serializeUser()); //serializeUser determines which d
 passport.deserializeUser(user.deserializeUser()); //The first argument of deserializeUser corresponds to the key of the user object that was given to the done function (see serializeUser). So your whole object is retrieved with help of that key. That key is usually the user id, but you can use whatever you want.
 
 // DB Connection
-const dbUrl = process.env.ATLAS_DB_URL ;
+const dbUrl = process.env.ATLAS_DB_URL;
 main()
     .then(() => {
         console.log("Connected to MongoDB");

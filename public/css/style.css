@@ -231,9 +231,6 @@ footer {
   .card-img-top, .Show-img {
     height: 180px !important;
   }
-  .row-cols-lg-3, .row-cols-md-2, .row-cols-sm-1 {
-    flex-direction: column !important;
-  }
   .tax-toggle {
     font-size: 0.8rem;
     padding: 0.3rem 0.7rem;
@@ -255,9 +252,6 @@ footer {
   }
   .card-img-top, .Show-img {
     height: 200px !important;
-  }
-  .row-cols-lg-3, .row-cols-md-2, .row-cols-sm-1 {
-    flex-direction: column !important;
   }
   .tax-toggle {
     font-size: 0.9rem;
@@ -354,17 +348,6 @@ html, body {
     max-width: 100% !important;
     width: 100% !important;
     margin: 0.5rem 0;
-  }
-}
-
-/* Responsive fix for listing cards grid */
-@media (max-width: 991.98px) {
-  .row.row-cols-lg-3 {
-    flex-direction: column !important;
-  }
-  .card.col {
-    width: 100% !important;
-    margin-bottom: 1.5rem !important;
   }
 }
 
